@@ -1,0 +1,237 @@
+.photo {
+    float: left;
+    position: relative;
+    background-position: center;
+    background-size: 100% 100%;
+    background-color: #77c4a5;
+    width: 440px;
+    height: 440px;
+    .overlay{
+        opacity: 0;
+        transition: opacity 0.2s;
+    }
+    .pixerf-hover{
+        opacity: 1;
+    }
+    &__select-checkbox{
+        position: absolute;
+        bottom: 40px;
+        left: 20px;
+        z-index: 4;
+        .pixerf-checkbox--fake{
+            &:not(.pixerf-checkbox--fake--checked){
+                display: none;
+            }
+        }
+    }
+    &__info{
+        z-index: 3;
+        transition: all 0.2s ease-out;
+        position: absolute;
+        bottom: 0px;
+        left: 0;
+        opacity: 0;
+        text-align: center;
+        background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.6) 100%);
+        width: 100%;
+        transition: opacity 0.2s;
+        height: 60px;
+        color: white;
+        &__author{
+            height: 100%;
+            width: 100%;
+            cursor: pointer;
+            &__avatar{
+                transition: bottom 0.2s;
+                width: 30px;
+                height: 30px;
+                position: absolute;
+                bottom: 0px;
+                left: 15px;
+                transition: all 0.2s;
+                img{
+                    width: 100%;
+                    height: 100%;
+                }
+
+            }
+            &__name{
+                color: white;
+                font-size: 12px;
+                text-align: left;
+                position: absolute;
+                left: 55px;
+                bottom: 0;
+                transition: all 0.2s;
+                &.text--truncate{
+                    max-width: 40%;
+                }
+            }
+        }
+        &__title{
+            font-size: 12px;
+            text-align: left;
+            position: absolute;
+            bottom: 0px;
+            margin-left: 19px;
+            transition: bottom 0.2s;
+            &.text--truncate{
+                max-width: 80%;
+            }
+        }
+    }
+    &__tools-wrapper{
+        position: absolute;
+        padding: 0 10px 10px;
+        width: 100%;
+        z-index: 5;
+		@include transition($all-transform-duration);
+        &__left{
+            width: 80%
+        }
+        &__right{
+            width: 20%;
+        }
+
+    }
+    &__tools{
+        opacity: 0;
+        float: right;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        cursor: pointer;
+        background-color: black;
+        z-index: 3;
+        [class^="icon"]{
+            line-height: 40px;
+            font-size: 1.7em;
+            color: white;
+        }
+        &--left{
+            float: left;
+            margin: 0 10px 5px 0;
+        }
+        &--right{
+            float: right;
+            margin: 0 0 5px 10px;
+        }
+        &--active{
+            background-color: $pixerf-theme-color;
+        }
+        &__like{
+            margin-left: 0;
+            background-color: transparent;
+            position: relative;
+        }
+        &__star-btn{
+            position: relative;
+            background-color: transparent;
+            top: 0;
+            right: 0;
+        }
+        .btn-like{
+            .icon-icons_like{
+                position: absolute;
+                color: white;
+                z-index: 2;
+                width: 100%;
+                left: 0;
+            }
+            &:after{
+                content:'';
+                background-color: white;
+                width:40px;
+                height:40px;
+                position:absolute;
+                top:0;
+                left:0;
+                opacity:0.5;
+                z-index: 1;
+            }
+            &__counter{
+                display: none;
+            }
+            &--liked{
+                &:after{
+                    background-color: $pixerf-theme-color;
+                    opacity: 0.8;
+                }
+            }
+        }
+        &__add-to-cart,
+        &__add-to-gallery,
+        &__more{
+            &.no-opacity{
+                opacity: 1;
+            }
+        }
+        &__more{
+            & + .popover{
+                width: 170px;
+            }
+        }
+
+      }
+
+    &:hover{
+        .photo__select-checkbox{
+            .pixerf-checkbox--fake{
+                display: block;
+            }
+        }
+        .overlay{
+            opacity: 0.2;
+            transition: opacity 0.2s;
+        }
+        .photo__info{
+            transition: all 0.2s ease-in;
+            opacity: 1;
+
+            &__author{
+              &__avatar,
+              &__name{
+                transition: bottom 0.2s;
+                bottom: 10px;
+              }
+              &__name{
+                bottom: 15px;
+              }
+            }
+            &__title{
+                transition: bottom 0.2s;
+                bottom: 10px;
+            }
+        }
+        .photo__tools{
+            &:hover{
+                opacity: 0.9;
+            }
+            &__like{
+                opacity: 1;
+            }
+            &__remove-btn{
+                opacity: 1;
+                button{
+                    width: 40px;
+                }
+            }
+            &__star-btn,&.pixerf-photo-state-btn{
+                opacity: 1;
+                &:hover{
+                    opacity: 0.8;
+                }
+            }
+            &__add-to-cart,
+            &__add-to-gallery,
+            &__more,
+            &__share{
+                opacity:0.5;
+            }
+			&-wrapper{
+				padding-top: 10px;
+			}
+        }
+    }
+
+}
