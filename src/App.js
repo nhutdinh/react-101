@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.scss';
-import PhotoGrid from './photo-grid/photoGrid';
+import PhotoGrid from './photo-grid/photoGrid.component';
 
 class App extends Component {
   render() {

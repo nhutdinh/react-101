@@ -85,7 +85,6 @@
         padding: 0 10px 10px;
         width: 100%;
         z-index: 5;
-		@include transition($all-transform-duration);
         &__left{
             width: 80%
         }
@@ -117,7 +116,7 @@
             margin: 0 0 5px 10px;
         }
         &--active{
-            background-color: $pixerf-theme-color;
+            // background-color: $pixerf-theme-color;
         }
         &__like{
             margin-left: 0;
@@ -154,7 +153,7 @@
             }
             &--liked{
                 &:after{
-                    background-color: $pixerf-theme-color;
+                    // background-color: $pixerf-theme-color;
                     opacity: 0.8;
                 }
             }
