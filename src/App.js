@@ -1,15 +1,12 @@
-import React, { Component } from 'react';
-import './App.scss';
-import PhotoGrid from './photo-grid/photoGrid.component';
+import React from 'react'
+import Picker from './filter/picker.container'
+import PhotoGrid from './photo-grid/photoGrid.container'
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <PhotoGrid/>
-      </div>
-    );
-  }
-}
+const App = () => (
+  <div>
+    <Picker options={[{label: "trending", value: 't'},{label: "discover", value: 'd'}]}/>
+    <PhotoGrid />
+  </div>
+)
 
-export default App;
+export default App

@@ -1,49 +1,26 @@
-import { combineReducers } from 'redux'
 import {
-    SELECT_PHOTOS_FILTER, RECEIVE_PHOTOS,
+    RECEIVE_PHOTOS,
     REQUEST_PHOTOS
 } from './photoGrid.action'
 
 
-const selectedSubreddit = (state = 't', action) => {
+
+export const isFetching = (state = false, action) => {
     switch (action.type) {
-        case SELECT_PHOTOS_FILTER:
-            return action.selectedFilter
+        case REQUEST_PHOTOS:
+            return true
+        case RECEIVE_PHOTOS:
+            return false
         default:
             return state
     }
 }
-
-const photos = (state = { isFetching: false, items: [] }, action) => {
+export const photosByFilter = (state = [], action) => {
     switch (action.type) {
-        case REQUEST_PHOTOS:
-            return {
-                ...state,
-                isFetching: true
-            }
         case RECEIVE_PHOTOS:
-            return {
-                ...state,
-                isFetching: false,
-                items: actions.photos
-            }
-
+        case REQUEST_PHOTOS:
+            return action.photos || []
+        default:
+            return state
     }
 }
-const postsBySubreddit = (state = { }, action) => {
-    switch (action.type) {
-      case RECEIVE_PHOTOS:
-      case REQUEST_PHOTOS:
-        return {
-          ...state,
-          [action.selectedFilter]: photos(state[action.selectedFilter], action)
-        }
-      default:
-        return state
-    }
-  }
-  
-const rootReducer = combineReducers({
-    photosByFilter,
-    selectedSubreddit
-  })

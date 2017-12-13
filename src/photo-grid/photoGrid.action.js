@@ -1,18 +1,13 @@
+import fetch from 'cross-fetch'
+
 export const REQUEST_PHOTOS = 'REQUEST_PHOTOS'
 export const RECEIVE_PHOTOS = 'RECEIVE_PHOTOS'
-export const SELECT_PHOTOS_FILTER = 'SELECT_PHOTOS_FILTER'
 
-export const selectPhotosFilter = selectedFilter => {
-    return {
-        type: SELECT_PHOTOS_FILTER,
-        selectedFilter
-    }
-}
 
 export const fetchPhotos = selectedFilter => (dispatch, getState) => {
     if (shouldFetchPhotos(getState(), selectedFilter)) {
         dispatch(requestPhotos(selectedFilter));
-        return fetch("https://qa.pixerf.com/api/media")
+        return fetch("https://qa.pixerf.com/api/media/search", {method: 'POST', body: JSON.stringify(selectedFilter)})
             .then(response => response.json())
             .then(json => dispatch(receivePhotos(selectedFilter, json)))
     }
@@ -24,12 +19,13 @@ const requestPhotos = selectedFilter => {
     }
 }
 const receivePhotos = (selectedFilter, json) => {
+    console.log(json);
     return {
         type: RECEIVE_PHOTOS,
         selectedFilter,
-        photos: json.data
+        photos: json
     }
 }
-const shouldFetchPhotos = (state, selectedFilter) => {
-    return state.photosByState[selectedFilter].isFetching;
-}
+const shouldFetchPhotos = (state, selectedFilter) => (
+    !state.isFetching
+)

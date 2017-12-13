@@ -1,31 +1,35 @@
 import React, { Component } from 'react';
 import Photo from '../photo/photo';
 import PropTypes from 'prop-types';
-import {fetchData} from './photoGrid.action'
+import {fetchPhotos} from './photoGrid.action'
+import { connect } from 'react-redux'
+import GridMaker from "./grid-marker"
 
 class PhotoGrid extends Component {
     static propTypes = {
-        photos: PropTypes.arrayOf(PropTypes.shape({
+        photosByFilter: PropTypes.arrayOf(PropTypes.shape({
             id: PropTypes.number.isRequired
-        }).isRequired).isRequired,
-        selectedFilter : PropTypes.string
+        }).isRequired),
+        selectedFilter : PropTypes.object
     }
     componentDidMount() {
         const { dispatch, selectedFilter } = this.props
         dispatch(fetchPhotos(selectedFilter))
     }
     componentWillReceiveProps(nextProps) {
-        if (nextProps.selectedSubreddit !== this.props.selectedSubreddit) {
-          const { dispatch, selectedSubreddit } = nextProps
-          dispatch(fetchPostsIfNeeded(selectedSubreddit))
+        if (nextProps.selectedFilter !== this.props.selectedFilter) {
+          const { dispatch, selectedFilter } = nextProps
+          dispatch(fetchPhotos(selectedFilter))
         }
       }
     render() {
-        const photos = this.props.photos.map((item) =>
-            <Photo key={item.id}/>
+        if(!this.props.photosByFilter) return <div>No data</div>;
+        const photosA = new GridMaker().generate(this.props.photosByFilter);
+        const photos = this.props.photosByFilter.map((item) =>
+            <Photo key={item.id} file={item}/>
         );
         return (
-            <div>
+            <div className="">
                 <div className="photo-grid">
                     {photos}
                 </div>
@@ -35,22 +39,11 @@ class PhotoGrid extends Component {
 }
 
 const mapStateToProps = state => {
-    const { selectedFilter, photosByFilter } = state;
-    console.log(1212);
-    const {
-      isFetching,
-      lastUpdated,
-      items: posts
-    } = {
-      isFetching: true,
-      items: []
-    };
-  
+    const { selectedFilter, photosByFilter, isFetching } = state;
     return {
-      selectedSubreddit,
-      posts,
-      isFetching,
-      lastUpdated,
+      selectedFilter,
+      photosByFilter,
+      isFetching
     }
   }
-export default PhotoGrid;
+  export default connect(mapStateToProps)(PhotoGrid)
