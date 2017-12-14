@@ -8,7 +8,7 @@ import {part} from './linear-partition'
 function GridMaker(options){
 	var defaultOptions = {
 		idealHeight: parseInt(window.innerHeight / 3),
-		spacer: 2,
+		spacer: 8,
 		itemClass: 'photo',
 		itemTmpl: '<div></div>',
 		$container: $('.photo-grid__photos-container'),
@@ -27,16 +27,6 @@ GridMaker.prototype = (function(){
 		return 100 - widthWithScroll;
 	};
 	var V_SCROLL_BAR_WIDTH = getScrollBarWidth();
-	function createItem(imageInfo){
-		var imgHtml = _.template(this.options.itemTmpl)(imageInfo);
-		var $item = $(imgHtml);
-		// $item.css("background-image", 'url(' + imageInfo.urlSmall + ')');
-		$item.width(imageInfo.w);
-		$item.height(imageInfo.h);
-		$item.css("margin", this.options.spacer);
-		$item.addClass(this.options.itemClass);
-		return $item.get(0);
-	}
 	function isScrollBarVisible($elmt){
 		if(this.options.$parent.is("body")){
 			return this.options.$parent.height() > $(window).height();
@@ -49,13 +39,10 @@ GridMaker.prototype = (function(){
 		var dimension = calculateImageDimension.call(this, viewportWidth, this.options.idealHeight, summedRatios, photo.ar, respect);
 		photo.w = dimension.w;
 		photo.h = dimension.h;
-
-		// var elem =  createItem.call(this, photo);
-
-		// if(this.options.events.beforeItemRendered){
-		// 	this.options.events.beforeItemRendered(elem, photo);
-		// }
-		// this.options.$container.get(0).appendChild(elem);
+		photo.margin = this.options.spacer;
+		var uid = new Date().getTime() + Math.random();
+		console.log(uid);
+		photo.uid = uid;
 	}
 	function calculateImageDimension(viewportWidth, idealHeight, summedRatios, ar, respect){
 		var dimension = {};
@@ -138,8 +125,6 @@ GridMaker.prototype = (function(){
 			return viewportWidth - V_SCROLL_BAR_WIDTH;
 		}
 		$("#pixerf-photo-grid").remove();
-		// setTimeout(function(){
-		// })
 		
 		return viewportWidth ;
 	}
@@ -156,7 +141,6 @@ GridMaker.prototype = (function(){
 	  		return sum += p.ar;
 		}), 0);
 		if(rows < 1){
-			// rows = 1;
 			for (var i  = 0; i < photos.length; i ++){
 				renderItem.call(this, photos[i], viewportWidth, summedRatios, rows);
 			}
@@ -183,9 +167,6 @@ GridMaker.prototype = (function(){
 				renderItem.call(this, photo,  viewportWidth, summedRatios, rows);
 		  	}
 		}
-		// setTimeout(function(){
-		// 	self.options.$container.css("min-height", '');
-		// },0);
 	}
 	return {
 		generate: generate,

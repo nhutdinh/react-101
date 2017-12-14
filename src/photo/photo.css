@@ -3,9 +3,7 @@
   position: relative;
   background-position: center;
   background-size: 100% 100%;
-  background-color: #77c4a5;
-  width: 440px;
-  height: 440px; }
+  background-color: #77c4a5; }
   .photo .overlay {
     opacity: 0;
     transition: opacity 0.2s; }

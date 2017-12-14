@@ -1,23 +1,36 @@
 import React, { Component } from 'react';
 import './photo.scss';
+import {selectPhoto} from './photo.action'
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux'
+import {fetchMorePhotos} from '../photo-grid/photoGrid.action'
 
 class Photo extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { file: props.file, css: "photo" };
-    }
-    onPhotoClicked(){
-        console.log(arguments);
-        var css = "photo photo--bg-red";
-        this.setState({css: css});
+    static propTypes = {
+        file: PropTypes.object,
+        onPhotoClicked : PropTypes.func
     }
     render() {
+        const divStyle = {
+            color: 'blue',
+            backgroundImage: 'url(' + this.props.file.url + ')',
+            width: this.props.file.w + "px",
+            height: this.props.file.h + "px",
+            margin: this.props.file.margin + "px"
+          };
         return (
-            <div onClick={this.onPhotoClicked.bind(this, this.state.file)} className={this.state.css} >
-                {this.state.file.id}
+            <div style={divStyle} onClick={(e) => this.props.onPhotoClicked(this.props.file, e)} className='photo' >
+                {this.props.file.id}
             </div>
         );
     }
 }
+const mapDispatchToProps =  (dispatch,state) => {
+    return {
+        onPhotoClicked: (photo) => {
+            dispatch(fetchMorePhotos(state.selectedFilter))
+        }
+    }
+}
 
-export default Photo;
+export default connect(null, mapDispatchToProps)(Photo)
